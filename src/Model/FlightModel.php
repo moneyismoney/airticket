@@ -2,7 +2,7 @@
 
 namespace Model;
 
-require_once  "./Model/Database.php";
+require_once  "Database.php";
 class FlightModel extends Database
 {
     public function getFlightsByDate($date) {

@@ -2,6 +2,16 @@
 
 namespace Controller;
 
+include_once  "BaseController.php";
+include_once  "../Model/FlightModel.php";
+
+use Error;
+use Model\FlightModel;
+
+/**
+ * Controller for flight actions
+ *
+ */
 class FlightController extends BaseController
 {
     public function searchAction()
@@ -12,7 +22,7 @@ class FlightController extends BaseController
         if (strtoupper($requestMethod) == 'POST') {
             try {
                 $flightModel = new FlightModel();
-                $date = filter_var($_POST['date'], FILTER_SANITIZE_STRING);
+                $date = filter_var($_POST['date'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $allFlights = $flightModel->getFlightsByDate($date);
                 $responseData = json_encode($allFlights);
             } catch (Error $e) {
