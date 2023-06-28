@@ -1,17 +1,18 @@
-This is just a lemp project for using in Docker 
-- PHP 
-- Nginx
-- MySQL
+## How to start:
 
-How to start:
+- Clone the project
 
+- Prepare environment
 ```
 docker-compose build
 docker-compose up -d
 ```
+- Create DB structure by db.sql script
 
-### Useful commands
-Login into [mysql] container
+- Do the POST request to {{base_url}}/api/search.php, with such parameters:
 ```
-docker-compose exec mysql bash
+date: "2023-11-21"
+origin: "KBP"
+destination: "VIE"
 ```
+- If you prefer Postman, import collection from GetFlights.postman_collection.json
