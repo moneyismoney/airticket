@@ -5,7 +5,7 @@ namespace Model;
 require_once  "Database.php";
 class FlightModel extends Database
 {
-    public function getFlightsByDate($date) {
+    public function getFlightsByDate($date, $origin, $destination) {
         return $this->select(
             "SELECT 
                         transporter_id,
@@ -17,7 +17,9 @@ class FlightModel extends Database
                         flight_number
                     FROM airticket.flight
                     WHERE 
-                        departure_date  = ?
-                    ORDER BY id DESC " , ['s', $date]);
+                        departure_date  = ? AND 
+                        origin = ? AND
+                        destination = ? 
+                    ORDER BY id DESC " , ['sss', $date, $origin, $destination]);
     }
 }

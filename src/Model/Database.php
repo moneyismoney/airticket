@@ -3,6 +3,7 @@
 namespace Model;
 
 use mysqli;
+use Exception;
 
 class Database
 {
@@ -38,8 +39,10 @@ class Database
             if($stmt === false) {
                 throw New Exception("Unable to do prepared statement: " . $query);
             }
+
             if( $params ) {
-                $stmt->bind_param($params[0], $params[1]);
+                $bindType = array_shift($params);
+                $stmt->bind_param($bindType, ...$params);
             }
             $stmt->execute();
             return $stmt;

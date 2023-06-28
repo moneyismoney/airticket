@@ -4,10 +4,12 @@ namespace Controller;
 
 include_once  "BaseController.php";
 include_once  "../Model/FlightModel.php";
+include_once  "../Model/Airport.php";
 
 use Error;
 use InvalidArgumentException;
 use Model\FlightModel;
+use Model\AirportModel;
 use DateTime;
 
 /**
@@ -28,8 +30,20 @@ class FlightController extends BaseController
                     throw new InvalidArgumentException('Date format error, should be YYYY-MM-DD');
                 }
 
+                $origin = filter_var($_POST['origin'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $destination = filter_var($_POST['destination'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $airports = new AirportModel();
+
+                if (null === $airports->getAirportIdtByCode($origin)) {
+                    throw new InvalidArgumentException('Wrong origin airport:' . $origin);
+                }
+
+                if (null === $airports->getAirportIdtByCode($destination)) {
+                    throw new InvalidArgumentException('Wrong destination airport: '. $destination);
+                }
+
                 $flightModel = new FlightModel();
-                $allFlights = $flightModel->getFlightsByDate($date);
+                $allFlights = $flightModel->getFlightsByDate($date, $origin, $destination);
                 $responseData = json_encode($allFlights);
             } catch (InvalidArgumentException $e) {
                 $strErrorDesc = $e->getMessage().' Please contact support.';
