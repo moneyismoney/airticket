@@ -16,6 +16,8 @@ class FlightModel extends Database
                         arrival_time,
                         flight_number
                     FROM airticket.flight
-                    ORDER BY id DESC ");
+                    WHERE 
+                        departure_date  = ?
+                    ORDER BY id DESC " , ['s', $date]);
     }
 }

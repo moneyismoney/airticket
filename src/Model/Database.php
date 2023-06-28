@@ -31,7 +31,7 @@ class Database
         }
         return false;
     }
-    private function executeStatement($query = "" , $params = [])
+    private function executeStatement($query = "" , $params = []): \mysqli_stmt
     {
         try {
             $stmt = $this->connection->prepare( $query );
